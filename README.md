@@ -2,7 +2,7 @@
 ## Description
 Project for portfolio
 
-Tech: Nest.js, MongoDB, Redis
+Tech: Nest.js, MongoDB, Redis, PostgreSQL
 ## Project setup
 
 ```bash
@@ -26,4 +26,6 @@ $ npm run prod
 ## Stay in touch
 
 - Telegram - [Ty4kaa](https://t.me/ty4kaa)
-- Website - [https://nestjs.com](https://nestjs.com/)
+
+
+Основа была взять с прошлого места работы [Desolver](https://desolver.dev), [Melonity](https://melonity.gg)
