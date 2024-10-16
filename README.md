@@ -2,7 +2,7 @@
 ## Description
 Project for portfolio
 
-Tech: Nest.js, MongoDB, Redis, PostgreSQL
+Tech: Nest.js, MongoDB, Redis
 ## Project setup
 
 ```bash
