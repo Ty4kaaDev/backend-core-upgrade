@@ -7,6 +7,8 @@ import { DataSource } from 'typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
+import { config } from 'process';
+import { LazyModule } from './lazyModule/lazy.module';
 
 @Module({
     imports: [
@@ -19,14 +21,16 @@ import { AuthModule } from './auth/auth.module';
             inject: [ConfigService],
             useFactory: (configService: ConfigService) => ({
                 type: 'postgres',
-                host: '127.0.0.1',
-                port: 5432,
+                host: configService.getOrThrow<string>('HOST_DB'),
+                port: configService.getOrThrow<number>('PORT_DB'),
                 username: 'postgres',
-                database: "postgres",
+                password: configService.get<string>('PASSWORD_DB'),
+                database: configService.getOrThrow<string>('DATABASE_DB'),
                 entities: [join(process.cwd(), 'dist/**/*.entity.js')],
                 synchronize: true,
             }),
         }),
+        LazyModule,
         UserModule,
         AuthModule,
     ],
@@ -36,3 +40,4 @@ import { AuthModule } from './auth/auth.module';
 export class AppModule {
     constructor(private database: DataSource) {}
 }
+

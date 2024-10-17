@@ -3,9 +3,12 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/entity/user.entity';
+import { LazyModule } from 'src/lazyModule/lazy.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [
+    LazyModule
+  ],
   controllers: [AuthController],
   providers: [AuthService]
 })

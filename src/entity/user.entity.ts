@@ -6,6 +6,18 @@ export enum UserRole {
     USER = 1,
 }
 
+export interface UserJwt {
+    sub: number;
+    iat: number;
+    exp: number;
+}
+
+export interface UserRequest extends Request {
+    user: User;
+    jwtPayload: UserJwt;
+    token: string;
+}
+
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
@@ -29,6 +41,6 @@ export class User {
     @Column()
     password: string;
 
-    @Column()
+    @Column({ unique: true })
     email: string
 }

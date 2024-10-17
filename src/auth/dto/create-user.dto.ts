@@ -1,7 +1,7 @@
 import { UserRole } from "src/entity/user.entity";
 import { IsEmail, IsEnum, IsString } from "class-validator";
 
-export class CreateUserDTO {
+export class RegisterDTO {
     @IsString()
     firstName: string;
 
