@@ -6,12 +6,15 @@ import { RegisterDTO } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt'
 import { LoginDTO } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { RAuthDTO } from './response.dto.ts/auth.dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectRepository(User) private readonly userRepository: Repository<User>,
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+        private readonly userService: UserService
     ){}
 
     async authByJwt(jwt: UserJwt): Promise<User>{
@@ -34,7 +37,7 @@ export class AuthService {
 
     async login(
         dto: LoginDTO
-    ){
+    ): Promise<RAuthDTO>{
         const {password, email} = dto;
 
         const user = await this.userRepository.findOne({
@@ -42,22 +45,22 @@ export class AuthService {
                 email: email
             }
         })
-        if(!user) throw new Error('User not found');
+        if(!user) throw new HttpException( "invalid email", HttpStatus.NOT_FOUND);
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
-        if(!isPasswordCorrect) throw new Error('Password incorrect');
+        if(!isPasswordCorrect) throw new HttpException('Password incorrect', HttpStatus.CONFLICT);
         
         return {
-            user: user,
+            user: this.userService.prepareUser(user),
             token: await this.getTokenWithUser(user)
         }
     }
 
     async createUser(
         dto: RegisterDTO
-    ){
-
+    ): Promise<RAuthDTO>{
+        if(await this.userRepository.findOne({ where: { email: dto.email } })) throw new HttpException('Email already exists', HttpStatus.CONFLICT);
         const hashedPassword = await bcrypt.hash( dto.password, await bcrypt.genSalt( 10 ) );
-        const user = {
+        const req = {
             firstName: dto.firstName,
             lastName: dto.lastName,
             role: UserRole.USER,
@@ -65,8 +68,11 @@ export class AuthService {
             email: dto.email,
         }
         
-        let res = await this.userRepository.save(user);
-        
-        return res
+        const user = await this.userRepository.save(req);
+        if(!user) throw new HttpException('User already exists', HttpStatus.CONFLICT);
+        return {
+            user: this.userService.prepareUser(user),
+            token: await this.getTokenWithUser(user)
+        }
     }
 }

@@ -8,6 +8,8 @@ export class AppService {
     constructor() {
         this.startTime = new Date();
     }
+
+
     getCommit(): string {
         if ( ! this.commit ) {
             this.commit = execSync( 'git rev-parse --short HEAD' )

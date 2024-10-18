@@ -18,7 +18,7 @@ async function bootstrap() {
         .build();
 
     const document = SwaggerModule.createDocument( app, config );
-    SwaggerModule.setup( 'docs/frontend', app, document );
+    SwaggerModule.setup( 'api', app, document );
     app.use( json( { limit: '30mb' } ) );
     app.enableCors();
     app.useGlobalPipes( new ValidationPipe() );
