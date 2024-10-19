@@ -9,6 +9,7 @@ import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { config } from 'process';
 import { LazyModule } from './lazyModule/lazy.module';
+import { MarketModule } from './market/market.module';
 
 @Module({
     imports: [
@@ -33,6 +34,7 @@ import { LazyModule } from './lazyModule/lazy.module';
         LazyModule,
         UserModule,
         AuthModule,
+        MarketModule,
     ],
     controllers: [AppController],
     providers: [AppService],

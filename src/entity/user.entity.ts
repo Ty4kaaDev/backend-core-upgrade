@@ -1,5 +1,6 @@
 import { UserService } from 'src/user/user.service';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Base } from './base.entity';
 
 export enum UserRole {
     BAN = 0,
@@ -19,7 +20,7 @@ export interface UserRequest extends Request {
 }
 
 @Entity()
-export class User {
+export class User extends Base {
     @PrimaryGeneratedColumn()
     id: number;
 
