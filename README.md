@@ -28,4 +28,4 @@ $ npm run prod
 - Telegram - [Ty4kaa](https://t.me/ty4kaa)
 
 
-Основа была взять с прошлого места работы [Desolver](https://desolver.dev), [Melonity](https://melonity.gg)
+Основа была взята с прошлого места работы [Desolver](https://desolver.dev), [Melonity](https://melonity.gg)
